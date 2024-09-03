@@ -1,85 +1,79 @@
-import matplotlib.pyplot as plt
 import streamlit as st
-import pandas as pd
 import numpy as np
-from sklearn.preprocessing import StandardScaler
+from tensorflow.keras.models import load_model
+import time
+import requests
 
-url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/preprocessed_data.csv"
-df = pd.read_csv(url)
+model_url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/lstm_model.keras"
+X_M_test_url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/X_M_test.npy"
+y_M_test_url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/y_M_test.npy"
 
-if 'show_model' not in st.session_state:
-    st.session_state['show_model'] = False 
+def download_file(url, local_path):
+    response = requests.get(url)
+    with open(local_path, 'wb') as file:
+        file.write(response.content)
+
+download_file(model_url, "lstm_model.keras")
+download_file(X_M_test_url, "X_M_test.npy")
+download_file(y_M_test_url, "y_M_test.npy")
+
+model = load_model("lstm_model.keras")
+X_M_test = np.load("X_M_test.npy")
+y_M_test = np.load("y_M_test.npy")
+
+sensor_names = [
+    'Motor Casing Vibration', 'Motor Frequency A', 'Motor Frequency B', 'Motor Frequency C',
+    'Motor Speed', 'Motor Current', 'Motor Active Power', 'Motor Apparent Power',
+    'Motor Reactive Power', 'Motor Shaft Power', 'Motor Phase Current A', 'Motor Phase Current B',
+    'Motor Phase Current C', 'Pump Thrust Bearing Active Temp', 'Pump Inlet Pressure',
+    'Pump Temp Unknown', 'Pump Discharge Pressure 1', 'Pump Discharge Pressure 2']
+
+if 'is_running' not in st.session_state:
+    st.session_state.is_running = False
+if 'current_index' not in st.session_state:
+    st.session_state.current_index = 0
+
+st.header("Real-time Data Streaming and Prediction")
+
+start_index = st.number_input("Select Starting Index", min_value=0, max_value=len(X_M_test)-1, value=0, step=1)
+
+
+if st.button("Set Index"):
+    st.session_state.current_index = start_index
+
 
 col1, col2 = st.columns(2)
+if col1.button("Start"):
+    st.session_state.is_running = True
+if col2.button("Stop"):
+    st.session_state.is_running = False
 
-# Button1 "Show Model"
-if col1.button('Show Confusion Matrix'):
-    st.session_state['show_model'] = True
+placeholder = st.empty()  
 
-# Button2 "Show Statistics"
-if col2.button('Show Statistics'):
-    st.session_state['show_model'] = False
+while st.session_state.is_running:
+    if st.session_state.current_index < len(X_M_test):
+        X_input = X_M_test[st.session_state.current_index].reshape((1, len(X_M_test[0]), 1))
+        prediction = model.predict(X_input)
 
-if st.session_state['show_model']:
-    image_path = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/photos/cm.jpeg"
-    st.image(image_path, caption='Confusion Matrix', use_column_width=True)
-else:
-    sensor_columns = {
-        'sensor_00': 'Motor Casing Vibration',
-        'sensor_01': 'Motor Frequency A',
-        'sensor_02': 'Motor Frequency B',
-        'sensor_03': 'Motor Frequency C',
-        'sensor_04': 'Motor Speed',
-        'sensor_05': 'Motor Current',
-        'sensor_06': 'Motor Active Power',
-        'sensor_07': 'Motor Apparent Power',
-        'sensor_08': 'Motor Reactive Power',
-        'sensor_09': 'Motor Shaft Power',
-        'sensor_10': 'Motor Phase Current A',
-        'sensor_11': 'Motor Phase Current B',
-        'sensor_12': 'Motor Phase Current C',
-        'sensor_40': 'Pump Thrust Bearing Active Temp',
-        'sensor_48': 'Pump Inlet Pressure',
-        'sensor_49': 'Pump Temp Unknown',
-        'sensor_50': 'Pump Discharge Pressure 1',
-        'sensor_51': 'Pump Discharge Pressure 2'}
+        with placeholder.container():
+            col3, col4 = st.columns([3, 1])
+            with col3:
+                current_values = X_M_test[st.session_state.current_index].flatten()
+                st.subheader("Sensor Readings:")
+                for i, sensor_name in enumerate(sensor_names):
+                    st.write(f"{sensor_name}: {current_values[i]:.2f}")
 
-    selected_sensors = st.multiselect("Please select at least one sensor (maximum 3):",
-                                      list(sensor_columns.keys()),
-                                      format_func=lambda x: sensor_columns[x],
-                                      default=["sensor_01"])
+            with col4:
+                st.write(f"Row: {st.session_state.current_index}")
+                st.write(f"Predicted Status: {'Normal' if prediction < 0.5 else 'Abnormal'}")
+                st.write(f"Actual Status: {'Normal' if y_M_test[st.session_state.current_index] == 0 else 'Abnormal'}")
 
-    if len(selected_sensors) > 3:
-        st.warning("You can select a maximum of 3 sensors.")
-    elif len(selected_sensors) > 0:
-        df_downsampled = df[::20] 
+        st.session_state.current_index += 1
 
-        # Convert DataFrame to NumPy array for faster operations
-        sensor_data = df_downsampled[selected_sensors].values
-        scaler = StandardScaler()
-        scaled_data = scaler.fit_transform(sensor_data)
-
-        df_scaled = pd.DataFrame(scaled_data, columns=selected_sensors)
-        df_scaled["machine_status"] = df_downsampled["machine_status"].values
-
-        fig, ax = plt.subplots(figsize=(12, 8)) 
-
-        fig.patch.set_facecolor('#A7C7E7')
-        ax.set_facecolor('#F0F0F0')
-
-        for sensor in selected_sensors:
-            ax.plot(df_scaled.index, df_scaled[sensor], label=sensor_columns[sensor], linewidth=1)
-
-        ax.plot(df_scaled.index, df_scaled["machine_status"], label="Machine Status", color='#0C005C', linewidth=1.5)
-        ax.fill_between(df_scaled.index, df_scaled["machine_status"], color='#0C005C', alpha=0.4)
-
-        
-        ax.set_ylim(-5, 5)
-        ax.set_xlabel("Index")
-        ax.set_ylabel("Values")
-        ax.set_title("Sensor Data vs Machine Status", fontsize=18)
-        ax.legend()
-
-        st.pyplot(fig)
+        time.sleep(1)
     else:
-        st.warning("Please select at least one sensor!")
+        st.write("All data has been processed.")
+        st.session_state.is_running = False
+
+if not st.session_state.is_running:
+    st.write("Prediction process stopped.")
