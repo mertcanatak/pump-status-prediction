@@ -14,8 +14,8 @@ st.set_page_config(layout="wide",
                    page_title="Machine Status Prediction")
 
 # Sidebar configuration
-st.sidebar.header("Dashboard")
-st.sidebar.success("Navigation")
+st.sidebar.header("Project Overview")
+st.sidebar.success("Quick Access")
 
 
 page = st.sidebar.radio("Select a page:", ("Overview", "Statistics", "Model"))
