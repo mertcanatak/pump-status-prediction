@@ -6,7 +6,7 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 import requests
 
-url = "https://raw.githubusercontent.com/mertcanatak/water-pump-status-prediction/main/preprocessed_data.csv"
+url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/preprocessed_data.csv"
 df = pd.read_csv(url)
 
 st.set_page_config(layout="wide",
@@ -38,17 +38,17 @@ if page == "Overview":
 
 
     if st.session_state['show_heatmap']:
-        image_path = "https://raw.githubusercontent.com/mertcanatak/water-pump-status-prediction/main/stlit/photos/corr.jpeg"
+        image_path = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/photos/corr.jpeg"
         image_caption = "Correlation between Sensors and Machine Status"
     else:
-        image_path = "https://raw.githubusercontent.com/mertcanatak/water-pump-status-prediction/main/stlit/photos/pump-img.jpeg"
+        image_path = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/photos/pump-img.jpeg"
         image_caption = "The aim of this project is to predict the operational status of a machine using historical sensor data, leveraging the power of deep learning models to anticipate potential failures and optimize maintenance schedules."
 
     st.image(image_path, caption=image_caption, use_column_width=True)
 
 elif page == "Statistics":
     st.title("Statistics")
-    stats_url = "https://raw.githubusercontent.com/mertcanatak/water-pump-status-prediction/main/stlit/1_Statistics.py"
+    stats_url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/1_Statistics.py"
     response = requests.get(stats_url)
     if response.status_code == 200:
         exec(response.text)  # Execute the loaded script
@@ -58,7 +58,7 @@ elif page == "Statistics":
 elif page == "Model Prediction Test":
     st.title("LSTM Model Prediction")
 
-    model_url = "https://raw.githubusercontent.com/mertcanatak/water-pump-status-prediction/main/stlit/2_Model.py"
+    model_url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/2_Model.py"
     response = requests.get(model_url)
     if response.status_code == 200:
         exec(response.text)
