@@ -55,7 +55,7 @@ elif page == "Statistics":
     else:
         st.error("Failed to load the Statistics page. Please check the URL.")
 
-elif page == "Model Prediction Test":
+elif page == "Model":
     st.title("LSTM Model Prediction")
     stats_url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/1_Statistics.py"
     response = requests.get(stats_url)
