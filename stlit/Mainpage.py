@@ -48,27 +48,19 @@ if page == "Overview":
 
 elif page == "Statistics":
     st.title("Statistics")
-    stats_url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/2_Model.py"
-    response = requests.get(stats_url)
+    model_url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/2_Model.py"
+    response = requests.get(model_url)
     if response.status_code == 200:
-        exec(response.text)  # Execute the loaded script
+        exec(response.text)  
     else:
         st.error("Failed to load the Statistics page. Please check the URL.")
 
 elif page == "Model Prediction Test":
     st.title("LSTM Model Prediction")
-
-    model_url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/2_Model.py"
-    response = requests.get(model_url)
+    stats_url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/1_Statistics.py"
+    response = requests.get(stats_url)
     if response.status_code == 200:
         exec(response.text)
     else:
         st.error("Failed to load the Model page. Please check the URL.")
-elif page == "Statistics":
-    st.title("Statistics")
-    stats_url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/2_Model.py"
-    response = requests.get(stats_url)
-    if response.status_code == 200:
-        exec(response.text)  # Execute the loaded script
-    else:
-        st.error("Failed to load the Statistics page. Please check the URL.")
+
