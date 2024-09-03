@@ -22,7 +22,7 @@ if col2.button('Show Statistics'):
 
 if st.session_state['show_model']:
     image_path = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/photos/cm.jpeg"
-    st.image(image_path, caption='Confusion Matrix', use_column_width=True)
+    st.image(image_path, caption='Confusion Matrix of Validation Set', use_column_width=True)
 else:
     sensor_columns = {
         'sensor_00': 'Motor Casing Vibration',
