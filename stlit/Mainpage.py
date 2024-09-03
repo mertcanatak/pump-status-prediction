@@ -58,7 +58,8 @@ elif page == "Statistics":
 elif page == "Model Prediction Test":
     st.title("LSTM Model Prediction")
 
-    model_url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/2_Model.py"
+    model_url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/1_Statistics.py"
+  #https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/2_Model.py
     response = requests.get(model_url)
     if response.status_code == 200:
         exec(response.text)
