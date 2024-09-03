@@ -48,8 +48,8 @@ if page == "Overview":
 
 elif page == "Statistics":
     st.title("Statistics")
-    model_url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/1_Statistics.py"
-    response = requests.get(model_url)
+    stats_url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/1_Statistics.py"
+    response = requests.get(stats_url)
     if response.status_code == 200:
         exec(response.text)  
     else:
@@ -57,8 +57,8 @@ elif page == "Statistics":
 
 elif page == "Model":
     st.title("LSTM Model Prediction")
-    stats_url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/2_Model.py"
-    response = requests.get(stats_url)
+    model_url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/2_Model.py"
+    response = requests.get(model_url)
     if response.status_code == 200:
         exec(response.text)
     else:
