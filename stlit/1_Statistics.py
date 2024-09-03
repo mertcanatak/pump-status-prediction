@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 
-url = "https://raw.githubusercontent.com/mertcanatak/water-pump-status-prediction/main/preprocessed_data.csv"
+url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/preprocessed_data.csv"
 df = pd.read_csv(url)
 
 if 'show_model' not in st.session_state:
@@ -21,7 +21,7 @@ if col2.button('Show Statistics'):
     st.session_state['show_model'] = False
 
 if st.session_state['show_model']:
-    image_path = "https://raw.githubusercontent.com/mertcanatak/water-pump-status-prediction/main/stlit/photos/cm.jpeg"
+    image_path = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/photos/cm.jpeg"
     st.image(image_path, caption='Confusion Matrix', use_column_width=True)
 else:
     sensor_columns = {
