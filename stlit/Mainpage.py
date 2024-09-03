@@ -64,3 +64,11 @@ elif page == "Model Prediction Test":
         exec(response.text)
     else:
         st.error("Failed to load the Model page. Please check the URL.")
+elif page == "Statistics":
+    st.title("Statistics")
+    stats_url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/2_Model.py"
+    response = requests.get(stats_url)
+    if response.status_code == 200:
+        exec(response.text)  # Execute the loaded script
+    else:
+        st.error("Failed to load the Statistics page. Please check the URL.")
