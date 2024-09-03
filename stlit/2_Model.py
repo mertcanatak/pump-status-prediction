@@ -4,9 +4,9 @@ from tensorflow.keras.models import load_model
 import time
 import requests
 
-model_url = "https://raw.githubusercontent.com/mertcanatak/water-pump-status-prediction/main/lstm_model.keras"
-X_M_test_url = "https://raw.githubusercontent.com/mertcanatak/water-pump-status-prediction/main/X_M_test.npy"
-y_M_test_url = "https://raw.githubusercontent.com/mertcanatak/water-pump-status-prediction/main/y_M_test.npy"
+model_url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/lstm_model.keras"
+X_M_test_url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/X_M_test.npy"
+y_M_test_url = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/y_M_test.npy"
 
 def download_file(url, local_path):
     response = requests.get(url)
