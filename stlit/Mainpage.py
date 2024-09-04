@@ -44,7 +44,7 @@ if page == "Overview":
     else:
         image_path = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/photos/pump-img.jpeg"
 
-    st.image(image_path, caption=image_caption, use_column_width=True)
+    st.image(image_path, use_column_width=True)
 
 elif page == "Statistics":
     st.title("Statistics")
