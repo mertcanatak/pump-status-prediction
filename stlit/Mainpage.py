@@ -43,7 +43,6 @@ if page == "Overview":
         image_caption = "Correlation between Sensors and Machine Status"
     else:
         image_path = "https://raw.githubusercontent.com/mertcanatak/pump-status-prediction/main/stlit/photos/pump-img.jpeg"
-        image_caption = "The aim of this project is to predict the operational status of a machine using historical sensor data, leveraging the power of deep learning models to anticipate potential failures and optimize maintenance schedules."
 
     st.image(image_path, caption=image_caption, use_column_width=True)
 
