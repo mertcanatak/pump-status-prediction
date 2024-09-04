@@ -9,7 +9,8 @@ from tensorflow.keras.optimizers import Adam
 
 class LSTMPipeline:
     def __init__(self, data_path,
-                 model_path="C:/Users/Mert Can/PycharmProjects/pythonProject/lstm_model.keras"):
+                 #model_path="/pythonProject/lstm_model.keras"):
+                 model_path="https://raw.githubusercontent.com/mertcanatak/water-pump-status-prediction/main/lstm_model.keras"):
         self.data_path = data_path
         self.model_path = model_path
         self.sensor_columns = ['sensor_00', 'sensor_01', 'sensor_02', 'sensor_03', 'sensor_04',
@@ -38,7 +39,6 @@ class LSTMPipeline:
         self.df.dropna(inplace=True, axis=0)
         self.df.reset_index(drop=True, inplace=True)
 
-        # X ve y
         self.X = self.df[self.sensor_columns].values.reshape((self.df.shape[0], len(self.sensor_columns), 1))
         self.y = self.df['shifted_machine_status'].values
 
