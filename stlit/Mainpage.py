@@ -15,7 +15,7 @@ st.set_page_config(layout="wide",
 
 # Sidebar configuration
 st.sidebar.header("Project Overview")
-st.sidebar.success("Quick Access")
+st.sidebar.success("Explore")
 
 
 page = st.sidebar.radio("Select a page:", ("Overview", "Statistics", "Model"))
