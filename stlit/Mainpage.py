@@ -23,6 +23,7 @@ page = st.sidebar.radio("Select a page:", ("Overview", "Statistics", "Model"))
 if page == "Overview":
     st.title("Machine Status Prediction Using Data-Driven Insights")
     st.header("Overview of the Machine Status Prediction Project")
+    st.write("The aim of this project is to predict the operational status of a machine using historical sensor data, leveraging the power of deep learning models to anticipate potential failures and optimize maintenance schedules.")
 
     if 'show_heatmap' not in st.session_state:
         st.session_state['show_heatmap'] = False 
