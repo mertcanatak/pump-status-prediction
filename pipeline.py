@@ -9,7 +9,7 @@ from tensorflow.keras.optimizers import Adam
 
 class LSTMPipeline:
     def __init__(self, data_path,
-                 #model_path="/pythonProject/lstm_model.keras"):
+                 # https://github.com/mertcanatak/pump-status-prediction/blob/main/lstm_model.keras
                  model_path="https://raw.githubusercontent.com/mertcanatak/water-pump-status-prediction/main/lstm_model.keras"):
         self.data_path = data_path
         self.model_path = model_path
