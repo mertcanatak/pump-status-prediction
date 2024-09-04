@@ -1,7 +1,8 @@
 from pipeline import LSTMPipeline
 
 def main():
-    pipeline = LSTMPipeline("C:/Users/Mert Can/PycharmProjects/pythonProject/sensor.csv")
+    pipeline = LSTMPipeline(".../sensor.csv")
+    # https://www.kaggle.com/datasets/nphantawee/pump-sensor-data/data
 
     pipeline.load_data()
     pipeline.preprocess_data()
